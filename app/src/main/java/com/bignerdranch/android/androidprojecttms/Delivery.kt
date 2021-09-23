@@ -1,9 +1,36 @@
 package com.bignerdranch.android.androidprojecttms
 
-sealed class Delivery() {
-    data class DpdBy(val coast: Int) : Delivery()
-    data class BoxAgentCom(val coast: Int) : Delivery()
-    data class VozimBy(val coast: Int) : Delivery()
+import androidx.constraintlayout.widget.Guideline
+
+sealed class Delivery(val deliver: (Order) -> Unit) {
+    data class DpdBy(val coast: Int) : Delivery({
+        println(
+            """Deliver: Dpd.by"
+                        Id: ${it.getIdOrder()}
+                        Price: ${it.getPrice()}
+                """.trimIndent()
+        )
+    })
+
+    data class BoxAgentCom(val coast: Int) : Delivery({
+        println(
+            """Deliver: BoxAgent.com"
+                        Id: ${it.getIdOrder()}
+                        Product: ${it.getProduct()}
+                        Price: ${it.getPrice()}
+                """.trimIndent()
+        )
+    })
+
+    data class VozimBy(val coast: Int) : Delivery({
+        println(
+            """Deliver: Vozim.by"
+                We are best of the best!  
+                        Consumer: ${it.getConsumer()}
+                        Address: ${it.getAddress()}
+                """.trimIndent()
+        )
+    })
 
     override fun toString(): String {
         return when (this) {
