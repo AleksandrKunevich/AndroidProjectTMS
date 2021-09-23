@@ -1,7 +1,7 @@
 package com.bignerdranch.android.androidprojecttms
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,4 +28,7 @@ fun main() {
     val discount3 = discount2.copy()
     discount3.discountType = DiscountType.NoDiscount
     println(discount3)
+    println(discount.discountType.calculate(5))
+    println(discount2.discountType.calculate(5))
+    println(discount3.discountType.calculate(5))
 }
