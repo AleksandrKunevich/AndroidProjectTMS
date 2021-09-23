@@ -1,12 +1,13 @@
 package com.bignerdranch.android.androidprojecttms
 
-sealed class Delivery(val deliver: (Order) -> Unit) {
+sealed class Delivery(var deliver: (Order) -> Unit) {
     data class DpdBy(val coast: Int) : Delivery({
         println(
             """
             Deliver: Dpd.by
             Id: ${it.getIdOrder()}
             Price: ${it.getPrice()}
+            
             """.trimIndent()
         )
     })
@@ -18,6 +19,7 @@ sealed class Delivery(val deliver: (Order) -> Unit) {
             Id: ${it.getIdOrder()}
             Product: ${it.getProduct()}
             Price: ${it.getPrice()}
+            
             """).trimIndent()
         )
     })
@@ -29,6 +31,7 @@ sealed class Delivery(val deliver: (Order) -> Unit) {
             We are best of the best!  
             Consumer: ${it.getConsumer()}
             Address: ${it.getAddress()}
+            
             """.trimIndent()
         )
     })

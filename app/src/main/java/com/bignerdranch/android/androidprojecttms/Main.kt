@@ -32,4 +32,19 @@ fun main() {
             it.deliver(order)
         }
     }
+    deliveryBox.deliver = {
+        println(
+            ("""
+            Our Delivery "val deliver: (Order) -> Unit"
+            change to
+            "var deliver: (Order) -> Unit"
+            
+            """).trimIndent()
+        )
+    }
+    listOrders.forEach { order ->
+        arrayDelivery.forEach {
+            it.deliver(order)
+        }
+    }
 }
