@@ -5,7 +5,8 @@ data class Discount(
     var description: String,
     var discountAmount: Int,
     var imageUrl: String,
-    var siteUrl: String
+    var siteUrl: String,
+    var discountType: DiscountType
 ) {
     fun getMyTitle() = title.uppercase()
     fun setMyDescription(value: String) {
