@@ -1,36 +1,36 @@
 package com.bignerdranch.android.androidprojecttms
 
-sealed class Delivery(var deliver: (Order) -> Unit) {
-    data class DpdBy(val coast: Int) : Delivery({
+sealed class Delivery(open val coast: Int, var deliver: (Order) -> Unit) {
+    data class DpdBy(override val coast: Int) : Delivery(1, {
         println(
             """
             Deliver: Dpd.by
-            Id: ${it.getIdOrder()}
-            Price: ${it.getPrice()}
+            Id: ${it.idOrder}
+            Price: ${it.price}
             
             """.trimIndent()
         )
     })
 
-    data class BoxAgentCom(val coast: Int) : Delivery({
+    data class BoxAgentCom(override val coast: Int) : Delivery(2, {
         println(
             ("""
             Deliver: BoxAgent.com
-            Id: ${it.getIdOrder()}
-            Product: ${it.getProduct()}
-            Price: ${it.getPrice()}
+            Id: ${it.idOrder}
+            Product: ${it.product}
+            Price: ${it.price}
             
             """).trimIndent()
         )
     })
 
-    data class VozimBy(val coast: Int) : Delivery({
+    data class VozimBy(override val coast: Int) : Delivery(3, {
         println(
             """
             Deliver: Vozim.by
             We are best of the best!  
-            Consumer: ${it.getConsumer()}
-            Address: ${it.getAddress()}
+            Consumer: ${it.consumer}
+            Address: ${it.address}
             
             """.trimIndent()
         )
