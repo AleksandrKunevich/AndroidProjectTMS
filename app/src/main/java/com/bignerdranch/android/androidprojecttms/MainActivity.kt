@@ -11,5 +11,12 @@ class MainActivity : AppCompatActivity() {
 }
 
 fun main() {
-    println("Hi")
+    val discount = Discount(
+        "Project",
+        "Good project",
+        1,
+        "https://im0-tub-by.yandex.net/i?id=eaa2b044794b726227846dda9669ffe9&n=13",
+        "https://github.com/AleksandrKunevich/AndroidProjectTMS"
+    )
+    println(discount)
 }
