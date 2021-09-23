@@ -27,6 +27,9 @@ fun main() {
     val deliveryDpd = Delivery.DpdBy(2)
     val deliveryBox = Delivery.BoxAgentCom(3)
     val arrayDelivery = arrayOf(deliveryBox, deliveryDpd, deliveryVozim)
-    println(deliveryBox)
-    deliveryBox.deliver(orderOne)
+    listOrders.forEach { order ->
+        arrayDelivery.forEach {
+            it.deliver(order)
+        }
+    }
 }
