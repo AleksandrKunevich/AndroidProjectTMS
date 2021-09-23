@@ -6,10 +6,4 @@ data class Order(
     val product: String,
     val address: String,
     val price: Double
-) {
-//    fun getIdOrder(): Int = idOrder
-//    fun getConsumer(): String = consumer
-//    fun getProduct(): String = product
-//    fun getAddress(): String = address
-//    fun getPrice(): Double = price
-}
+)
