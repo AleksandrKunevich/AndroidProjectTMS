@@ -5,7 +5,7 @@ data class Order(
     private val consumer: String,
     private val product: String,
     private val address: String,
-    private val price: Double
+    private val price: Double,
 ) {
     fun getIdOrder(): Int = idOrder
     fun getConsumer(): String = consumer

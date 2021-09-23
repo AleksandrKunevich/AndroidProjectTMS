@@ -1,30 +1,26 @@
 package com.bignerdranch.android.androidprojecttms
 
-import androidx.constraintlayout.widget.Guideline
-
 sealed class Delivery(val deliver: (Order) -> Unit) {
     data class DpdBy(val coast: Int) : Delivery({
         println(
-            """Deliver: Dpd.by"
-                        Id: ${it.getIdOrder()}
-                        Price: ${it.getPrice()}
-                """.trimIndent()
+            """Deliver: Dpd.by
+            Id: ${it.getIdOrder()}
+            Price: ${it.getPrice()}
+            """.trimIndent()
         )
     })
 
     data class BoxAgentCom(val coast: Int) : Delivery({
-        println(
-            """Deliver: BoxAgent.com"
-                        Id: ${it.getIdOrder()}
-                        Product: ${it.getProduct()}
-                        Price: ${it.getPrice()}
-                """.trimIndent()
-        )
+        println(("""Deliver: BoxAgent.com
+            Id: ${it.getIdOrder()}
+            Product: ${it.getProduct()}
+            Price: ${it.getPrice()}
+            """).trimIndent())
     })
 
     data class VozimBy(val coast: Int) : Delivery({
         println(
-            """Deliver: Vozim.by"
+            """Deliver: Vozim.by
                 We are best of the best!  
                         Consumer: ${it.getConsumer()}
                         Address: ${it.getAddress()}
