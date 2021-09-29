@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.bignerdranch.android.androidprojecttms.school.Discipline
 import com.bignerdranch.android.androidprojecttms.school.Mark
 import com.bignerdranch.android.androidprojecttms.school.Student
+import java.util.*
 import kotlin.random.Random
 
 class MainActivity : AppCompatActivity() {
@@ -38,6 +39,7 @@ fun main() {
     }
     val averageMarkStudent: MutableMap<Int, Double> = mutableMapOf()
     val averageMarkDiscipline: MutableMap<Int, Double> = mutableMapOf()
+    val marksStudents: MutableMap<Int, MutableList<Int>> = mutableMapOf()
     var averageGeneral = 0.0
     mark.forEach {
         averageGeneral += it.value
@@ -53,30 +55,64 @@ fun main() {
         } else {
             averageMarkDiscipline[it.disciplineId] = it.value.toDouble()
         }
+        if (marksStudents[it.studentId] != null) {
+            marksStudents[it.studentId]!!.add(it.value)
+        } else {
+            marksStudents[it.studentId] = mutableListOf(it.value)
+        }
     }
-    averageGeneral /= disciplines.size
+    averageGeneral /= mark.size
     averageMarkStudent.forEach {
         averageMarkStudent[it.key] = averageMarkStudent[it.key]!! / disciplines.size
-        println(averageMarkStudent[it.key])
     }
     averageMarkDiscipline.forEach {
         averageMarkDiscipline[it.key] = averageMarkDiscipline[it.key]!! / disciplines.size
-        println(averageMarkDiscipline[it.key])
     }
-}
 
-fun nameStudent(id: Int, _students: MutableList<Student>): String {
-    _students.forEach {
-        if (it.id == id) return it.name
+    fun nameStudent(id: Int): String {
+        students.forEach {
+            if (it.id == id) return it.name
+        }
+        return "No student"
     }
-    return "No student"
-}
 
-fun titleDiscipline(id: Int, _disciplines: MutableList<Discipline>): String {
-    _disciplines.forEach {
-        if (it.id == id) return it.title
+    fun titleDiscipline(id: Int): String {
+        disciplines.forEach {
+            if (it.id == id) return it.title
+        }
+        return "No discipline"
     }
-    return "No discipline"
+    averageMarkStudent.forEach {
+        println("${nameStudent(it.key)} = ${it.value}")
+    }
+    averageMarkDiscipline.forEach {
+        println("${titleDiscipline(it.key)} = ${it.value}")
+    }
+    println("Average class = $averageGeneral")
+
+    marksStudents.forEach { m ->
+        var excellent = 0
+        var good = 0
+        m.value.forEach {
+            if (it in 9..10) {
+                excellent++
+            }
+            if (it in 6..10) {
+                good++
+            }
+        }
+        when {
+            excellent == disciplines.size -> {
+                println("Excellent student ${nameStudent(m.key)} marks=${marksStudents[m.key]}")
+            }
+            good == disciplines.size -> {
+                println("Good student ${nameStudent(m.key)} marks=${marksStudents[m.key]}")
+            }
+            (good+1) == disciplines.size -> {
+                println("Very close to be good student ${nameStudent(m.key)} marks=${marksStudents[m.key]}")
+            }
+        }
+    }
 }
 
 //    val discount = Discount(
