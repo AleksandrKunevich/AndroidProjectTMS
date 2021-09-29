@@ -4,7 +4,7 @@
 
 1. Создать классы для ученика и для предмета (Student, Discipline). У каждого есть имя/названиеи идентификатор id.
 
-2. Создать класс оценка Mark с полем value и указанием на ученика и предмет. 2 подходахранить в классе Mark поля student: Student и discipline: Discipline; в классе Mark поля studentId: Int и disciplineId.
+2. Создать класс оценка Mark с полем value и указанием на ученика и предмет. 2 подхода хранить в классе Mark поля student: Student и discipline: Discipline; в классе Mark поля studentId: Int и disciplineId.
 
 3. В методе onCreate класса MainActivity создаем список из 5+ учеников и 3+ предметов.
 
