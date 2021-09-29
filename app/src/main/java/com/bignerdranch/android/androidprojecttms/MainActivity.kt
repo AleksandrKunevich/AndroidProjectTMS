@@ -33,9 +33,50 @@ fun main() {
     val mark: MutableList<Mark> = mutableListOf()
     students.forEach { _student ->
         disciplines.forEach {
-            mark.add(Mark(Random(10).nextInt(), _student, it))
+            mark.add(Mark(Random.nextInt(10) + 1, _student, it))
         }
     }
+    val averageMarkStudent: MutableMap<Int, Double> = mutableMapOf()
+    val averageMarkDiscipline: MutableMap<Int, Double> = mutableMapOf()
+    var averageGeneral = 0.0
+    mark.forEach {
+        averageGeneral += it.value
+        if (averageMarkStudent[it.studentId] != null) {
+            averageMarkStudent[it.studentId] =
+                (averageMarkStudent[it.studentId]!! + it.value.toDouble())
+        } else {
+            averageMarkStudent[it.studentId] = it.value.toDouble()
+        }
+        if (averageMarkDiscipline[it.disciplineId] != null) {
+            averageMarkDiscipline[it.disciplineId] =
+                (averageMarkDiscipline[it.disciplineId]!! + it.value.toDouble())
+        } else {
+            averageMarkDiscipline[it.disciplineId] = it.value.toDouble()
+        }
+    }
+    averageGeneral /= disciplines.size
+    averageMarkStudent.forEach {
+        averageMarkStudent[it.key] = averageMarkStudent[it.key]!! / disciplines.size
+        println(averageMarkStudent[it.key])
+    }
+    averageMarkDiscipline.forEach {
+        averageMarkDiscipline[it.key] = averageMarkDiscipline[it.key]!! / disciplines.size
+        println(averageMarkDiscipline[it.key])
+    }
+}
+
+fun nameStudent(id: Int, _students: MutableList<Student>): String {
+    _students.forEach {
+        if (it.id == id) return it.name
+    }
+    return "No student"
+}
+
+fun titleDiscipline(id: Int, _disciplines: MutableList<Discipline>): String {
+    _disciplines.forEach {
+        if (it.id == id) return it.title
+    }
+    return "No discipline"
 }
 
 //    val discount = Discount(
