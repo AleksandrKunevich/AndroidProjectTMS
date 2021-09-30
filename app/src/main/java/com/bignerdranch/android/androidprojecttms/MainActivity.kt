@@ -11,8 +11,15 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
         val students: MutableList<Student> = mutableListOf()
         val disciplines: MutableList<Discipline> = mutableListOf()
+        val mark: MutableList<Mark> = mutableListOf()
+        val averageMarkStudent: MutableMap<Int, Double> = mutableMapOf()
+        val averageMarkDiscipline: MutableMap<Int, Double> = mutableMapOf()
+        var averageGeneral = 0.0
+        val marksStudents: MutableMap<Int, MutableList<Int>> = mutableMapOf()
+
         students.add(Student("Petya", 101))
         students.add(Student("Kolya", 102))
         students.add(Student("Inna", 103))
@@ -25,17 +32,15 @@ class MainActivity : AppCompatActivity() {
         disciplines.add(Discipline("Physic", 333))
         disciplines.add(Discipline("English", 444))
         disciplines.add(Discipline("Biology", 555))
-        val mark: MutableList<Mark> = mutableListOf()
+
+        // Назначаем оценки всем ученикам по всем предметам
         students.forEach { _student ->
             disciplines.forEach {
                 mark.add(Mark(Random.nextInt(10) + 1, _student, it))
             }
         }
 
-        val averageMarkStudent: MutableMap<Int, Double> = mutableMapOf()
-        val averageMarkDiscipline: MutableMap<Int, Double> = mutableMapOf()
-        var averageGeneral = 0.0
-        val marksStudents: MutableMap<Int, MutableList<Int>> = mutableMapOf()
+        // Определяем и печатаем средние значения оценок
         mark.forEach {
             averageGeneral += it.value
             if (averageMarkStudent[it.studentId] != null) {
@@ -64,13 +69,14 @@ class MainActivity : AppCompatActivity() {
             averageMarkDiscipline[it.key] = averageMarkDiscipline[it.key]!! / disciplines.size
         }
         averageMarkStudent.forEach {
-            println("${nameStudent(it.key, students)} = ${it.value}")
+            println("Средняя оценка студента ${nameStudent(it.key, students)}:  ${it.value}")
         }
         averageMarkDiscipline.forEach {
-            println("${titleDiscipline(it.key, disciplines)} = ${it.value}")
+            println("Средняя по предмету ${titleDiscipline(it.key, disciplines)}: ${it.value}")
         }
-        println("Average class = $averageGeneral")
+        println("Средняя оценка класса: $averageGeneral")
 
+        // Определяем отличников, хорошистов и тех кому не хватило 1 оценки до хорошиста
         marksStudents.forEach { markIt ->
             var excellent = 0
             var good = 0
@@ -118,6 +124,22 @@ class MainActivity : AppCompatActivity() {
     }
 }
 
+// Фунцкия определяет имя студента по Id
+fun nameStudent(id: Int, students: MutableList<Student>): String {
+    students.forEach {
+        if (it.id == id) return it.name
+    }
+    return "No student"
+}
+
+// Функция определяем дисциплину по Id
+fun titleDiscipline(id: Int, disciplines: MutableList<Discipline>): String {
+    disciplines.forEach {
+        if (it.id == id) return it.title
+    }
+    return "No discipline"
+}
+
 fun main() {
     val discount = Discount(
         "Project",
@@ -141,18 +163,3 @@ fun main() {
     println(discount3.discountType.calculate(5))
 
 }
-
-fun nameStudent(id: Int, students: MutableList<Student>): String {
-    students.forEach {
-        if (it.id == id) return it.name
-    }
-    return "No student"
-}
-
-fun titleDiscipline(id: Int, disciplines: MutableList<Discipline>): String {
-    disciplines.forEach {
-        if (it.id == id) return it.title
-    }
-    return "No discipline"
-}
-
