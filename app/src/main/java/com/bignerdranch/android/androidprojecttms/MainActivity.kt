@@ -1,6 +1,7 @@
 package com.bignerdranch.android.androidprojecttms
 
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.bignerdranch.android.androidprojecttms.school.Discipline
 import com.bignerdranch.android.androidprojecttms.school.Mark
@@ -69,12 +70,12 @@ class MainActivity : AppCompatActivity() {
             averageMarkDiscipline[it.key] = averageMarkDiscipline[it.key]!! / disciplines.size
         }
         averageMarkStudent.forEach {
-            println("Средняя оценка студента ${nameStudent(it.key, students)}:  ${it.value}")
+            Log.v("Средняя оценка студента ${nameStudent(it.key, students)}", "${it.value}")
         }
         averageMarkDiscipline.forEach {
-            println("Средняя по предмету ${titleDiscipline(it.key, disciplines)}: ${it.value}")
+            Log.w("Средняя по предмету ${titleDiscipline(it.key, disciplines)}", "${it.value}")
         }
-        println("Средняя оценка класса: $averageGeneral")
+        Log.e("Средняя оценка класса", "$averageGeneral")
 
         // Определяем отличников, хорошистов и тех кому не хватило 1 оценки до хорошиста
         marksStudents.forEach { markIt ->
@@ -90,33 +91,21 @@ class MainActivity : AppCompatActivity() {
             }
             when {
                 excellent == disciplines.size -> {
-                    println(
-                        "Excellent student ${
-                            nameStudent(
-                                markIt.key,
-                                students
-                            )
-                        } marks=${marksStudents[markIt.key]}"
+                    Log.d(
+                        "Excellent student",
+                        "${nameStudent(markIt.key, students)} marks=${marksStudents[markIt.key]}"
                     )
                 }
                 good == disciplines.size -> {
-                    println(
-                        "Good student ${
-                            nameStudent(
-                                markIt.key,
-                                students
-                            )
-                        } marks=${marksStudents[markIt.key]}"
+                    Log.i(
+                        "Good student",
+                        "${nameStudent(markIt.key, students)} marks=${marksStudents[markIt.key]}"
                     )
                 }
                 (good + 1) == disciplines.size -> {
-                    println(
-                        "Very close to be good student ${
-                            nameStudent(
-                                markIt.key,
-                                students
-                            )
-                        } marks=${marksStudents[markIt.key]}"
+                    Log.wtf(
+                        "Very close to be good student",
+                        "${nameStudent(markIt.key, students)} marks=${marksStudents[markIt.key]}"
                     )
                 }
             }
