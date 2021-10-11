@@ -67,7 +67,7 @@ class MainActivity : AppCompatActivity() {
             averageMarkStudent[it.key] = averageMarkStudent[it.key]!! / disciplines.size
         }
         averageMarkDiscipline.forEach {
-            averageMarkDiscipline[it.key] = averageMarkDiscipline[it.key]!! / disciplines.size
+            averageMarkDiscipline[it.key] = averageMarkDiscipline[it.key]!! / students.size
         }
         averageMarkStudent.forEach {
             Log.v("Средняя оценка студента ${nameStudent(it.key, students)}", "${it.value}")
