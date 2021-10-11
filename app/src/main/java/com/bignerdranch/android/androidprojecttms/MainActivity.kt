@@ -18,7 +18,7 @@ class MainActivity : AppCompatActivity() {
         val mark: MutableList<Mark> = mutableListOf()
         val averageMarkStudent: MutableMap<Int, Double> = mutableMapOf()
         val averageMarkDiscipline: MutableMap<Int, Double> = mutableMapOf()
-        var averageGeneral = 0.0
+        var sumGeneral = 0.0
         val marksStudents: MutableMap<Int, MutableList<Int>> = mutableMapOf()
 
         students.add(Student("Petya", 101))
@@ -43,7 +43,7 @@ class MainActivity : AppCompatActivity() {
 
         // Определяем и печатаем средние значения оценок
         mark.forEach {
-            averageGeneral += it.value
+            sumGeneral += it.value
 
             val currentSum = averageMarkStudent.getOrDefault(it.studentId, 0)
             val newSum = currentSum.toDouble() + it.value.toDouble()
@@ -58,12 +58,12 @@ class MainActivity : AppCompatActivity() {
             marks.add(it.value)
             marksStudents[it.studentId] = marks
         }
-        averageGeneral /= mark.size
+        val averageGeneral: Double = sumGeneral / mark.size
         averageMarkStudent.forEach { (key, value) ->
             averageMarkStudent[key] = value / disciplines.size
         }
         averageMarkDiscipline.forEach {
-            averageMarkDiscipline[it.key] = averageMarkDiscipline[it.key]!! / students.size
+            averageMarkDiscipline[it.key] = it.value / students.size
         }
         averageMarkStudent.forEach {
             Log.v("Средняя оценка студента ${nameStudent(it.key, students)}", "${it.value}")
