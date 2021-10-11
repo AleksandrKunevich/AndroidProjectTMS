@@ -44,27 +44,23 @@ class MainActivity : AppCompatActivity() {
         // Определяем и печатаем средние значения оценок
         mark.forEach {
             averageGeneral += it.value
-            if (averageMarkStudent[it.studentId] != null) {
-                averageMarkStudent[it.studentId] =
-                    (averageMarkStudent[it.studentId]!! + it.value.toDouble())
-            } else {
-                averageMarkStudent[it.studentId] = it.value.toDouble()
-            }
-            if (averageMarkDiscipline[it.disciplineId] != null) {
-                averageMarkDiscipline[it.disciplineId] =
-                    (averageMarkDiscipline[it.disciplineId]!! + it.value.toDouble())
-            } else {
-                averageMarkDiscipline[it.disciplineId] = it.value.toDouble()
-            }
-            if (marksStudents[it.studentId] != null) {
-                marksStudents[it.studentId]!!.add(it.value)
-            } else {
-                marksStudents[it.studentId] = mutableListOf(it.value)
-            }
+
+            val currentSum = averageMarkStudent.getOrDefault(it.studentId, 0)
+            val newSum = currentSum.toDouble() + it.value.toDouble()
+            averageMarkStudent[it.studentId] = newSum
+
+            val currentDisciplineSum =
+                averageMarkDiscipline.getOrPut(it.disciplineId, { 0.toDouble() })
+            val newDisciplineSum = currentDisciplineSum + it.value.toDouble()
+            averageMarkDiscipline[it.disciplineId] = newDisciplineSum
+
+            val marks = marksStudents.getOrElse(it.studentId, { mutableListOf() })
+            marks.add(it.value)
+            marksStudents[it.studentId] = marks
         }
         averageGeneral /= mark.size
-        averageMarkStudent.forEach {
-            averageMarkStudent[it.key] = averageMarkStudent[it.key]!! / disciplines.size
+        averageMarkStudent.forEach { (key, value) ->
+            averageMarkStudent[key] = value / disciplines.size
         }
         averageMarkDiscipline.forEach {
             averageMarkDiscipline[it.key] = averageMarkDiscipline[it.key]!! / students.size
