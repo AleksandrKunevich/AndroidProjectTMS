@@ -110,19 +110,19 @@ class MainActivity : AppCompatActivity() {
 }
 
 // Фунцкия определяет имя студента по Id
-fun nameStudent(id: Int, students: MutableList<Student>): String {
-    students.forEach {
-        if (it.id == id) return it.name
+fun nameStudent(id: Int, students: List<Student>): String {
+    val student = students.find { student ->
+        student.id == id
     }
-    return "No student"
+    return student?.name ?: "No student"
 }
 
 // Функция определяем дисциплину по Id
-fun titleDiscipline(id: Int, disciplines: MutableList<Discipline>): String {
-    disciplines.forEach {
-        if (it.id == id) return it.title
+fun titleDiscipline(id: Int, disciplines: List<Discipline>): String {
+    val discipline = disciplines.firstOrNull { discipline ->
+        discipline.id == id
     }
-    return "No discipline"
+    return discipline?.title ?: "No discipline"
 }
 
 fun main() {
