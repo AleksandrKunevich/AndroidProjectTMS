@@ -18,7 +18,7 @@ class MainActivity : AppCompatActivity() {
         val mark: MutableList<Mark> = mutableListOf()
         val averageMarkStudent: MutableMap<Int, Double> = mutableMapOf()
         val averageMarkDiscipline: MutableMap<Int, Double> = mutableMapOf()
-        var averageGeneral = 0.0
+        var sumGeneral = 0.0
         val marksStudents: MutableMap<Int, MutableList<Int>> = mutableMapOf()
 
         students.add(Student("Petya", 101))
@@ -43,31 +43,27 @@ class MainActivity : AppCompatActivity() {
 
         // Определяем и печатаем средние значения оценок
         mark.forEach {
-            averageGeneral += it.value
-            if (averageMarkStudent[it.studentId] != null) {
-                averageMarkStudent[it.studentId] =
-                    (averageMarkStudent[it.studentId]!! + it.value.toDouble())
-            } else {
-                averageMarkStudent[it.studentId] = it.value.toDouble()
-            }
-            if (averageMarkDiscipline[it.disciplineId] != null) {
-                averageMarkDiscipline[it.disciplineId] =
-                    (averageMarkDiscipline[it.disciplineId]!! + it.value.toDouble())
-            } else {
-                averageMarkDiscipline[it.disciplineId] = it.value.toDouble()
-            }
-            if (marksStudents[it.studentId] != null) {
-                marksStudents[it.studentId]!!.add(it.value)
-            } else {
-                marksStudents[it.studentId] = mutableListOf(it.value)
-            }
+            sumGeneral += it.value
+
+            val currentSum = averageMarkStudent.getOrDefault(it.studentId, 0)
+            val newSum = currentSum.toDouble() + it.value.toDouble()
+            averageMarkStudent[it.studentId] = newSum
+
+            val currentDisciplineSum =
+                averageMarkDiscipline.getOrPut(it.disciplineId, { 0.toDouble() })
+            val newDisciplineSum = currentDisciplineSum + it.value.toDouble()
+            averageMarkDiscipline[it.disciplineId] = newDisciplineSum
+
+            val marks = marksStudents.getOrElse(it.studentId, { mutableListOf() })
+            marks.add(it.value)
+            marksStudents[it.studentId] = marks
         }
-        averageGeneral /= mark.size
-        averageMarkStudent.forEach {
-            averageMarkStudent[it.key] = averageMarkStudent[it.key]!! / disciplines.size
+        val averageGeneral: Double = sumGeneral / mark.size
+        averageMarkStudent.forEach { (key, value) ->
+            averageMarkStudent[key] = value / disciplines.size
         }
         averageMarkDiscipline.forEach {
-            averageMarkDiscipline[it.key] = averageMarkDiscipline[it.key]!! / disciplines.size
+            averageMarkDiscipline[it.key] = it.value / students.size
         }
         averageMarkStudent.forEach {
             Log.v("Средняя оценка студента ${nameStudent(it.key, students)}", "${it.value}")
@@ -114,19 +110,19 @@ class MainActivity : AppCompatActivity() {
 }
 
 // Фунцкия определяет имя студента по Id
-fun nameStudent(id: Int, students: MutableList<Student>): String {
-    students.forEach {
-        if (it.id == id) return it.name
+fun nameStudent(id: Int, students: List<Student>): String {
+    val student = students.find { student ->
+        student.id == id
     }
-    return "No student"
+    return student?.name ?: "No student"
 }
 
 // Функция определяем дисциплину по Id
-fun titleDiscipline(id: Int, disciplines: MutableList<Discipline>): String {
-    disciplines.forEach {
-        if (it.id == id) return it.title
+fun titleDiscipline(id: Int, disciplines: List<Discipline>): String {
+    val discipline = disciplines.firstOrNull { discipline ->
+        discipline.id == id
     }
-    return "No discipline"
+    return discipline?.title ?: "No discipline"
 }
 
 fun main() {
